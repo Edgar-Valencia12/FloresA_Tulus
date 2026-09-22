@@ -65,16 +65,24 @@ bouquetPoints.forEach((pt) => {
     flowersGroup.appendChild(gWrapper);
 });
 
+// Intentar reproducir automáticamente tan pronto cargue la página
+window.addEventListener('DOMContentLoaded', () => {
+    const backgroundMusic = document.getElementById('background-music');
+    if (backgroundMusic) {
+        backgroundMusic.volume = 0.7;
+        backgroundMusic.play().catch(() => {
+            // Si el navegador lo bloquea, se reproducirá automáticamente en cuanto el usuario toque el girasol
+        });
+    }
+});
+
 // --- LÓGICA DE INTERACCIÓN Y AUDIO ---
 document.getElementById('initial-trigger').addEventListener('click', function() {
-    // Intentar reproducir la música de manera segura
     try {
         const backgroundMusic = document.getElementById('background-music');
-        if (backgroundMusic) {
+        if (backgroundMusic && backgroundMusic.paused) {
             backgroundMusic.volume = 0.7;
-            backgroundMusic.play().catch(error => {
-                console.log("Reproducción automática prevenida por el navegador: ", error);
-            });
+            backgroundMusic.play();
         }
     } catch (e) {
         console.log("Error con el audio: ", e);
