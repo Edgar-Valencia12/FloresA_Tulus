@@ -65,48 +65,51 @@ bouquetPoints.forEach((pt) => {
     flowersGroup.appendChild(gWrapper);
 });
 
-// --- CONFIGURACIÓN DE AUDIO ROMÁNTICO (TONE.JS) ---
+// --- CONFIGURACIÓN DE AUDIO (MELODÍA TIERNA DE PIANO) ---
 let pianoSynth, reverb;
 let isAudioInitialized = false;
 
 function initAudio() {
     if (isAudioInitialized) return;
 
-    // Reverberación cálida y profunda para dar un sonido romántico de salón
+    // Reverberación amplia y cristalina
     reverb = new Tone.Reverb({
-        decay: 5,
-        wet: 0.6
+        decay: 6,
+        wet: 0.65
     }).toDestination();
 
+    // Sintetizador con tono dulce tipo cajita musical / piano acústico brillante
     pianoSynth = new Tone.Synth({
-        oscillator: { type: 'triangle' }, // El oscilador triangular suena más cálido y dulce que el sine
+        oscillator: { type: 'sine' },
         envelope: {
-            attack: 0.3,
-            decay: 1.8,
-            sustain: 0.2,
-            release: 2.5
+            attack: 0.05,
+            decay: 1.2,
+            sustain: 0.05,
+            release: 1.5
         }
     }).connect(reverb);
     
-    pianoSynth.volume.value = -4; 
+    pianoSynth.volume.value = -5;
 
-    // Progresión de acordes melancólicos y románticos (estilo balada de amor)
-    const romanticMelody = [
-        "E4", "G#4", "B4", "E5", 
-        "D#5", "B4", "G#4", "E4",
-        "C#4", "E4", "G#4", "C#5", 
-        "B4", "G#4", "E4", "D#4",
-        "A4", "C#5", "E5", "C#5",
-        "B4", "G#4", "F#4", "G#4"
+    // Melodía sumamente tierna, dulce y de tono limpio
+    const sweetMelody = [
+        "G4", "B4", "C5", "D5", 
+        "C5", "B4", "A4", "G4",
+        "E4", "G4", "B4", "A4", 
+        "G4", "F#4", "G4", "D4",
+        "G4", "B4", "C5", "E5", 
+        "D5", "C5", "B4", "A4",
+        "B4", "C5", "D5", "G4",
+        "C5", "B4", "A4", "G4"
     ];
 
     let noteIndex = 0;
 
-    // Ritmo de arpegio fluido y fluido (cada corchea "4n" o "8n")
+    // Ritmo más dinámico y fluido (notas en corcheas "4n" para que suene más a canción de piano)
     Tone.Transport.scheduleRepeat((time) => {
-        pianoSynth.triggerAttackRelease(romanticMelody[noteIndex], "2n", time);
-        noteIndex = (noteIndex + 1) % romanticMelody.length;
-    }, "2n"); // "2n" mantiene una cadencia muy romántica y pausada
+        pianoSynth.triggerAttackRelease(sweetMelody[noteIndex], "4n", time);
+        noteIndex = (noteIndex + 1) % sweetMelody.length;
+    }, "4n");
 
     isAudioInitialized = true;
 }
