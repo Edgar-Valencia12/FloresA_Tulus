@@ -67,12 +67,18 @@ bouquetPoints.forEach((pt) => {
 
 // --- LÓGICA DE INTERACCIÓN Y AUDIO ---
 document.getElementById('initial-trigger').addEventListener('click', function() {
-    // Reproducir la canción personalizada
-    const backgroundMusic = document.getElementById('background-music');
-    backgroundMusic.volume = 0.7;
-    backgroundMusic.play().catch(error => {
-        console.log("El navegador bloqueó la reproducción automática: ", error);
-    });
+    // Intentar reproducir la música de manera segura
+    try {
+        const backgroundMusic = document.getElementById('background-music');
+        if (backgroundMusic) {
+            backgroundMusic.volume = 0.7;
+            backgroundMusic.play().catch(error => {
+                console.log("Reproducción automática prevenida por el navegador: ", error);
+            });
+        }
+    } catch (e) {
+        console.log("Error con el audio: ", e);
+    }
 
     // Ocultar elementos iniciales y títulos
     this.classList.add('hide');
