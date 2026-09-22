@@ -65,63 +65,14 @@ bouquetPoints.forEach((pt) => {
     flowersGroup.appendChild(gWrapper);
 });
 
-// --- CONFIGURACIÓN DE AUDIO (MELODÍA TIERNA DE PIANO) ---
-let pianoSynth, reverb;
-let isAudioInitialized = false;
-
-function initAudio() {
-    if (isAudioInitialized) return;
-
-    // Reverberación amplia y cristalina
-    reverb = new Tone.Reverb({
-        decay: 6,
-        wet: 0.65
-    }).toDestination();
-
-    // Sintetizador con tono dulce tipo cajita musical / piano acústico brillante
-    pianoSynth = new Tone.Synth({
-        oscillator: { type: 'sine' },
-        envelope: {
-            attack: 0.05,
-            decay: 1.2,
-            sustain: 0.05,
-            release: 1.5
-        }
-    }).connect(reverb);
-    
-    pianoSynth.volume.value = -5;
-
-    // Melodía sumamente tierna, dulce y de tono limpio
-    const sweetMelody = [
-        "G4", "B4", "C5", "D5", 
-        "C5", "B4", "A4", "G4",
-        "E4", "G4", "B4", "A4", 
-        "G4", "F#4", "G4", "D4",
-        "G4", "B4", "C5", "E5", 
-        "D5", "C5", "B4", "A4",
-        "B4", "C5", "D5", "G4",
-        "C5", "B4", "A4", "G4"
-    ];
-
-    let noteIndex = 0;
-
-    // Ritmo más dinámico y fluido (notas en corcheas "4n" para que suene más a canción de piano)
-    Tone.Transport.scheduleRepeat((time) => {
-        pianoSynth.triggerAttackRelease(sweetMelody[noteIndex], "4n", time);
-        noteIndex = (noteIndex + 1) % sweetMelody.length;
-    }, "4n");
-
-    isAudioInitialized = true;
-}
-
-// --- LÓGICA DE INTERACCIÓN ---
-document.getElementById('initial-trigger').addEventListener('click', async function() {
-    await Tone.start();
-    initAudio();
-
-    if (Tone.Transport.state !== "started") {
-        Tone.Transport.start();
-    }
+// --- LÓGICA DE INTERACCIÓN Y AUDIO ---
+document.getElementById('initial-trigger').addEventListener('click', function() {
+    // Reproducir la canción personalizada
+    const backgroundMusic = document.getElementById('background-music');
+    backgroundMusic.volume = 0.7;
+    backgroundMusic.play().catch(error => {
+        console.log("El navegador bloqueó la reproducción automática: ", error);
+    });
 
     // Ocultar elementos iniciales y títulos
     this.classList.add('hide');
