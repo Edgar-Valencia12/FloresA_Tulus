@@ -65,57 +65,57 @@ bouquetPoints.forEach((pt) => {
     flowersGroup.appendChild(gWrapper);
 });
 
-// --- CONFIGURACIÓN DE AUDIO (TONE.JS) ---
+// --- CONFIGURACIÓN DE AUDIO ROMÁNTICO (TONE.JS) ---
 let pianoSynth, reverb;
 let isAudioInitialized = false;
 
 function initAudio() {
     if (isAudioInitialized) return;
 
-    // Creamos la reverberación y el sintetizador tipo piano suave
+    // Reverberación cálida y profunda para dar un sonido romántico de salón
     reverb = new Tone.Reverb({
-        decay: 4,
-        wet: 0.5
+        decay: 5,
+        wet: 0.6
     }).toDestination();
 
     pianoSynth = new Tone.Synth({
-        oscillator: { type: 'sine' },
+        oscillator: { type: 'triangle' }, // El oscilador triangular suena más cálido y dulce que el sine
         envelope: {
-            attack: 0.2,
-            decay: 1.5,
-            sustain: 0.1,
-            release: 2
+            attack: 0.3,
+            decay: 1.8,
+            sustain: 0.2,
+            release: 2.5
         }
     }).connect(reverb);
     
-    pianoSynth.volume.value = -6; // Subimos ligeramente el volumen para asegurarnos de que se escuche bien
+    pianoSynth.volume.value = -4; 
 
-    const melodyNotes = [
-        "C4", "E4", "G4", "B4", 
-        "A4", "F4", "C4", "E4", 
-        "D4", "F4", "A4", "C5", 
-        "B4", "G4", "E4", "G4"
+    // Progresión de acordes melancólicos y románticos (estilo balada de amor)
+    const romanticMelody = [
+        "E4", "G#4", "B4", "E5", 
+        "D#5", "B4", "G#4", "E4",
+        "C#4", "E4", "G#4", "C#5", 
+        "B4", "G#4", "E4", "D#4",
+        "A4", "C#5", "E5", "C#5",
+        "B4", "G#4", "F#4", "G#4"
     ];
 
     let noteIndex = 0;
 
+    // Ritmo de arpegio fluido y fluido (cada corchea "4n" o "8n")
     Tone.Transport.scheduleRepeat((time) => {
-        pianoSynth.triggerAttackRelease(melodyNotes[noteIndex], "2n", time);
-        noteIndex = (noteIndex + 1) % melodyNotes.length;
-    }, "1n");
+        pianoSynth.triggerAttackRelease(romanticMelody[noteIndex], "2n", time);
+        noteIndex = (noteIndex + 1) % romanticMelody.length;
+    }, "2n"); // "2n" mantiene una cadencia muy romántica y pausada
 
     isAudioInitialized = true;
 }
 
 // --- LÓGICA DE INTERACCIÓN ---
 document.getElementById('initial-trigger').addEventListener('click', async function() {
-    // 1. Activar obligatoriamente el contexto de audio del navegador por el gesto del usuario
     await Tone.start();
-    
-    // 2. Inicializar el sintetizador si no se había hecho
     initAudio();
 
-    // 3. Arrancar el transporte de audio
     if (Tone.Transport.state !== "started") {
         Tone.Transport.start();
     }
