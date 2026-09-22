@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Día - Ramo de Girasoles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Enlace al archivo de estilos -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Contenedor de partículas de fondo -->
+    <div id="particles-container"></div>
+
+    <!-- Capa de Interfaz de Usuario -->
+    <div class="ui-layer">
+        <h1 id="main-title">Feliz Día</h1>
+        <h2 id="sub-title" class="sub-title">para tulus</h2>
+        
+        <!-- Elemento interactivo inicial -->
+        <div id="initial-trigger">
+            <svg class="spinning-sunflower" viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg">
+                <use href="#sunflower-def" />
+            </svg>
+            <div class="hint-text">Toca el girasol</div>
+        </div>
+        
+        <!-- Contenedor del Ramo SVG -->
+        <svg id="bouquet-container" viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="sunflower-center" cx="50%" cy="50%" r="50%">
+                    <stop offset="60%" stop-color="#3E2723"/>
+                    <stop offset="90%" stop-color="#261714"/>
+                    <stop offset="100%" stop-color="#1c100e"/>
+                </radialGradient>
+                
+                <!-- Definición maestra del Girasol -->
+                <g id="sunflower-def">
+                    <g fill="#E6A817">
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(7.5)"/>
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(37.5)"/>
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(67.5)"/>
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(97.5)"/>
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(127.5)"/>
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(157.5)"/>
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(187.5)"/>
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(217.5)"/>
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(247.5)"/>
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(277.5)"/>
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(307.5)"/>
+                        <path d="M0,0 Q12,-35 0,-85 Q-12,-35 0,0" transform="rotate(337.5)"/>
+                    </g>
+                    <g fill="#FFD700" stroke="#CC8800" stroke-width="0.5">
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(0)"/>
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(30)"/>
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(60)"/>
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(90)"/>
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(120)"/>
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(150)"/>
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(180)"/>
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(210)"/>
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(240)"/>
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(270)"/>
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(300)"/>
+                        <path d="M0,0 Q10,-35 0,-80 Q-10,-35 0,0" transform="rotate(330)"/>
+                    </g>
+                    <circle r="32" fill="url(#sunflower-center)"/>
+                    <circle r="26" fill="none" stroke="#5E3A00" stroke-width="3" stroke-dasharray="3 3"/>
+                    <circle r="18" fill="none" stroke="#291800" stroke-width="2" stroke-dasharray="2 2"/>
+                </g>
+            </defs>
+
+            <!-- Envoltura Trasera -->
+            <polygon class="wrapper-back wrapper-front" points="250,500 350,500 320,700 280,700" fill="#6c4827" opacity="0.9" />
+
+            <!-- Grupo donde se inyectarán los tallos -->
+            <g id="stems-group"></g>
+
+            <!-- Envoltura Delantera (Kraft Paper) -->
+            <path class="wrapper-front" d="M 170,500 Q 300,580 430,500 L 370,780 Q 300,820 230,780 Z" fill="#9C6B3E" stroke="#5E3E20" stroke-width="2"/>
+            
+            <!-- Moño Rojo Delantero -->
+            <g class="wrapper-front" transform="translate(0, 0)">
+                <path d="M 300 620 Q 260 720 230 770" fill="none" stroke="#D31027" stroke-width="15" stroke-linecap="round"/>
+                <path d="M 300 620 Q 340 720 370 770" fill="none" stroke="#D31027" stroke-width="15" stroke-linecap="round"/>
+                <path d="M 300 620 C 210 560, 170 650, 300 620" fill="#EA2027"/>
+                <path d="M 300 620 C 390 560, 430 650, 300 620" fill="#EA2027"/>
+                <circle cx="300" cy="620" r="12" fill="#990000"/>
+            </g>
+
+            <!-- Grupo donde se inyectarán los girasoles -->
+            <g id="flowers-group"></g>
+        </svg>
+    </div>
+
+    <!-- Enlace al archivo de JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
