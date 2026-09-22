@@ -65,14 +65,20 @@ bouquetPoints.forEach((pt) => {
     flowersGroup.appendChild(gWrapper);
 });
 
-// --- MÚSICA DE PIANO SUAVE ---
-function startSoftPianoMusic() {
-    const reverb = new Tone.Reverb({
+// --- CONFIGURACIÓN DE AUDIO (TONE.JS) ---
+let pianoSynth, reverb;
+let isAudioInitialized = false;
+
+function initAudio() {
+    if (isAudioInitialized) return;
+
+    // Creamos la reverberación y el sintetizador tipo piano suave
+    reverb = new Tone.Reverb({
         decay: 4,
         wet: 0.5
     }).toDestination();
 
-    const pianoSynth = new Tone.Synth({
+    pianoSynth = new Tone.Synth({
         oscillator: { type: 'sine' },
         envelope: {
             attack: 0.2,
@@ -82,7 +88,7 @@ function startSoftPianoMusic() {
         }
     }).connect(reverb);
     
-    pianoSynth.volume.value = -10;
+    pianoSynth.volume.value = -6; // Subimos ligeramente el volumen para asegurarnos de que se escuche bien
 
     const melodyNotes = [
         "C4", "E4", "G4", "B4", 
@@ -98,14 +104,21 @@ function startSoftPianoMusic() {
         noteIndex = (noteIndex + 1) % melodyNotes.length;
     }, "1n");
 
-    Tone.Transport.start();
+    isAudioInitialized = true;
 }
 
 // --- LÓGICA DE INTERACCIÓN ---
 document.getElementById('initial-trigger').addEventListener('click', async function() {
-    // Activa el motor de audio web al toque del usuario
+    // 1. Activar obligatoriamente el contexto de audio del navegador por el gesto del usuario
     await Tone.start();
-    startSoftPianoMusic();
+    
+    // 2. Inicializar el sintetizador si no se había hecho
+    initAudio();
+
+    // 3. Arrancar el transporte de audio
+    if (Tone.Transport.state !== "started") {
+        Tone.Transport.start();
+    }
 
     // Ocultar elementos iniciales y títulos
     this.classList.add('hide');
